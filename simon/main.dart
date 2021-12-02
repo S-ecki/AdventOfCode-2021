@@ -1,8 +1,10 @@
 import 'solutions/index.dart';
+import 'utils/generic_day.dart';
 
-const ONLY_SHOW_LAST = false;
-final days = [
+const ONLY_SHOW_LAST = true;
+final days = <GenericDay>[
   Day1(),
+  Day2(),
 ];
 
 void main() {

@@ -6,7 +6,7 @@ class Day1 extends GenericDay {
 
   @override
   int solvePart1() {
-    return solve(getInput());
+    return solve(parseInput());
   }
 
   @override
@@ -14,7 +14,7 @@ class Day1 extends GenericDay {
     return solve(sumTriplets());
   }
 
-  List<int> getInput() {
+  List<int> parseInput() {
     return ParseUtil.stringListToIntList(input.getPerLine());
   }
 
@@ -29,7 +29,7 @@ class Day1 extends GenericDay {
   }
 
   List<int> sumTriplets() {
-    final input = getInput();
+    final input = parseInput();
     final triplets = <int>[];
 
     // a .map() would have been nice, but Dart does not give you access
