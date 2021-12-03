@@ -5,6 +5,7 @@ const ONLY_SHOW_LAST = true;
 final days = <GenericDay>[
   Day1(),
   Day2(),
+  Day3(),
 ];
 
 void main() {
