@@ -1,8 +1,8 @@
 import '../utils/generic_day.dart';
 import '../utils/parse_util.dart';
 
-class Day1 extends GenericDay {
-  Day1() : super(1);
+class Day01 extends GenericDay {
+  Day01() : super(1);
 
   @override
   int solvePart1() {

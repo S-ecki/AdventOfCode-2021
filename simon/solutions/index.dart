@@ -1,5 +1,5 @@
-export 'day1.dart';
-export 'day2.dart';
-export 'day3.dart';
-export 'day4.dart';
+export 'day01.dart';
+export 'day02.dart';
+export 'day03.dart';
+export 'day04.dart';
 // export 'day5.dart';

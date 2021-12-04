@@ -1,8 +1,8 @@
 import '../utils/generic_day.dart';
 import '../utils/parse_util.dart';
 
-class Day4 extends GenericDay {
-  Day4() : super(4);
+class Day04 extends GenericDay {
+  Day04() : super(4);
 
   late List<int> nums;
   late List<Board> boards;

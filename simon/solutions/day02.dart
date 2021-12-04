@@ -1,7 +1,7 @@
 import '../utils/generic_day.dart';
 
-class Day2 extends GenericDay {
-  Day2() : super(2);
+class Day02 extends GenericDay {
+  Day02() : super(2);
 
   @override
   List<Instruction> parseInput() {

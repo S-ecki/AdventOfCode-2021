@@ -1,8 +1,8 @@
 import '../utils/generic_day.dart';
 import '../utils/parse_util.dart';
 
-class Day3 extends GenericDay {
-  Day3() : super(3);
+class Day03 extends GenericDay {
+  Day03() : super(3);
 
   @override
   List<String> parseInput() {

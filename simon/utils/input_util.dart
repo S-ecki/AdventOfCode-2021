@@ -5,7 +5,12 @@ import 'dart:io';
 class InputUtil {
   final String _inputAsString;
 
-  InputUtil(int day) : _inputAsString = _readInput('./input/aoc$day.txt');
+  InputUtil(int day) : _inputAsString = _readInputDay(day);
+
+  static String _readInputDay(int day) {
+    String dayString = day.toString().padLeft(2, '0');
+    return _readInput('./input/aoc$dayString.txt');
+  }
 
   static String _readInput(String input) {
     return File(input).readAsStringSync();

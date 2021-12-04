@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../solutions/day4.dart';
+import '../solutions/day04.dart';
 
 class ParseUtil {
   /// Throws an exception if any given String is not parseable.
