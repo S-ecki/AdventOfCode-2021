@@ -11,6 +11,9 @@ class InputUtil {
     return File(input).readAsStringSync();
   }
 
+  /// Returns input as one String.
+  String get asString => _inputAsString;
+
   /// Splits the input String by `newline`.
   List<String> getPerLine() {
     return _inputAsString.split('\n');
