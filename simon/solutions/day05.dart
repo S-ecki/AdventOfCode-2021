@@ -1,5 +1,9 @@
+import 'package:tuple/tuple.dart';
+
 import '../utils/generic_day.dart';
 import '../utils/parse_util.dart';
+
+typedef Position = Tuple2<int, int>;
 
 class Day05 extends GenericDay {
   Day05() : super(5);
@@ -48,33 +52,16 @@ class Day05 extends GenericDay {
   }
 }
 
-class Position {
-  Position(this.x, this.y);
-  Position.fromList(List<int> pos)
-      : assert(pos.length == 2),
-        x = pos[0],
-        y = pos[1];
-
-  final int x;
-  final int y;
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Position && other.x == x && other.y == y;
-  }
-
-  @override
-  int get hashCode => x.hashCode ^ y.hashCode;
-}
-
 class Line {
-  Line(this.start, this.end);
-  Position start;
-  Position end;
+  final x1, x2, y1, y2;
 
-  bool get isDiagonal => (start.x != end.x && start.y != end.y);
+  Line(Position start, Position end)
+      : x1 = start.item1,
+        x2 = end.item1,
+        y1 = start.item2,
+        y2 = end.item2;
+
+  bool get isDiagonal => (x1 != x2 && y1 != y2);
 
   Set<Position> generatePositions(bool allowDiagonal) {
     return allowDiagonal
@@ -89,35 +76,35 @@ class Line {
   }
 
   Set<Position> _generateDiagonalPositions() {
-    assert(!(start.x == end.x || start.y == end.y));
+    assert(!(x1 == x2 || y1 == y2));
     Set<Position> linePositions = Set();
 
-    if (start.x < end.x) {
-      int y = start.y;
+    if (x1 < x2) {
+      int y = y1;
       // topleft to bottomright
-      if (start.y < end.y) {
+      if (y1 < y2) {
         // iterate left to right
-        for (var i = start.x; i <= end.x; ++i) {
+        for (var i = x1; i <= x2; ++i) {
           linePositions.add(Position(i, y++));
         }
         // leftbottom to topright
       } else {
         // iterate left to right
-        for (var i = start.x; i <= end.x; ++i) {
+        for (var i = x1; i <= x2; ++i) {
           linePositions.add(Position(i, y--));
         }
       }
-    } else if (start.x > end.x) {
-      int x = start.x;
+    } else if (x1 > x2) {
+      int item1 = x1;
       // topright to bottomleft
-      if (start.y < end.y) {
-        for (var i = start.y; i <= end.y; ++i) {
-          linePositions.add(Position(x--, i));
+      if (y1 < y2) {
+        for (var i = y1; i <= y2; ++i) {
+          linePositions.add(Position(item1--, i));
         }
         // bottomright to topleft
       } else {
-        for (var i = start.y; i >= end.y; --i) {
-          linePositions.add(Position(x--, i));
+        for (var i = y1; i >= y2; --i) {
+          linePositions.add(Position(item1--, i));
         }
       }
     }
@@ -129,30 +116,30 @@ class Line {
     int begin = 0, finish = 0;
 
     // vertical
-    if (start.x == end.x) {
-      if (start.y < end.y) {
-        begin = start.y;
-        finish = end.y;
+    if (x1 == x2) {
+      if (y1 < y2) {
+        begin = y1;
+        finish = y2;
       } else {
-        begin = end.y;
-        finish = start.y;
+        begin = y2;
+        finish = y1;
       }
 
       for (var i = begin; i <= finish; ++i) {
-        linePositions.add(Position(start.x, i));
+        linePositions.add(Position(x1, i));
       }
       // horizontal
     } else {
-      if (start.x < end.x) {
-        begin = start.x;
-        finish = end.x;
+      if (x1 < x2) {
+        begin = x1;
+        finish = x2;
       } else {
-        begin = end.x;
-        finish = start.x;
+        begin = x2;
+        finish = x1;
       }
 
       for (var i = begin; i <= finish; ++i) {
-        linePositions.add(Position(i, start.y));
+        linePositions.add(Position(i, y1));
       }
     }
     return linePositions;
