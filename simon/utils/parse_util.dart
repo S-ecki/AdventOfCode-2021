@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import '../solutions/day04.dart';
 
 class ParseUtil {
