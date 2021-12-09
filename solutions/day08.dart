@@ -6,7 +6,6 @@ import '../utils/index.dart';
 typedef StringList = List<String>;
 typedef Command = Tuple2<StringList, StringList>;
 
-/// This code is an abomination and I m sorry for everyone reading it :)
 class Day08 extends GenericDay {
   Day08() : super(8);
 
@@ -21,7 +20,6 @@ class Day08 extends GenericDay {
 
   @override
   int solvePart1() {
-    // final input = ;
     return parseInput().fold<int>(0, (p, t) => p + _numberOfSegments(t.item2));
   }
 
@@ -33,63 +31,65 @@ class Day08 extends GenericDay {
   @override
   int solvePart2() {
     final input = parseInput();
-    final returnValue = input.fold<int>(0, (sum, tuple) {
+    // add the results of every input line together
+    return input.fold<int>(0, (sum, tuple) {
       final loopup = _determineForTuple(tuple);
+      // fold each digit together into empty string - gets parsed later
       final number = tuple.item2.fold<String>('', (prev, digit) {
-        final s = loopup.entries
-            .firstWhere((e) {
-              return SetEquality().equals(e.key, digit.toSet());
-            })
+        // get correct digit from lookup and append it to string
+        return prev += loopup.entries
+            .firstWhere((e) => SetEquality().equals(e.key, digit.toSet()))
             .value
             .toString();
-        return prev += s;
       });
       return sum + int.parse(number);
     });
-    return returnValue;
   }
 
   Map<Set<String>, int?> _determineForTuple(Command tuple) {
     final signals = tuple.item1.map((s) => s.toSet());
-    Map<Set<String>, int?> setToDigit = Map(); // String is only char!
-    Map<int, Set<String>> digitToSet = Map(); // String is only char!
+    // String is used as dart has no char
+    Map<Set<String>, int?> setToDigit = Map();
+    Map<int, Set<String>> digitToSet = Map();
+    final setMap = (Set<String> key, int value) => setToDigit[key] = value;
 
+    // fill lookups with unambiguous digits
     signals.forEach((signal) {
-      setToDigit[signal] = _getDigit(signal);
-      digitToSet[_getDigit(signal) ?? -1] = signal;
+      setToDigit[signal] = _getUnambiguousDigit(signal);
+      digitToSet[_getUnambiguousDigit(signal) ?? -1] = signal;
     });
 
+    // create map of ambiguous digits
     Map<Set<String>, int?> ambiguous = Map.from(setToDigit)
       ..removeWhere((key, value) => value != null);
 
-    for (var key in ambiguous.keys) {
-      if (key.length == 5) {
-        if (key.intersection(digitToSet[1]!).length == 2) {
-          setToDigit[key] = 3;
-        } else if (key.intersection(digitToSet[4]!).length == 2) {
-          setToDigit[key] = 2;
-        } else {
-          setToDigit[key] = 5;
-        }
-      } else if (key.length == 6) {
-        if (key.intersection(digitToSet[1]!).length == 1) {
-          setToDigit[key] = 6;
-        } else if (key.intersection(digitToSet[4]!).length == 4) {
-          setToDigit[key] = 9;
-        } else {
-          setToDigit[key] = 0;
-        }
-      } else {
-        throw Exception();
-      }
-    }
+    // determine digits for 5-length segments
+    ambiguous.keys.where((key) => key.length == 5).forEach((key) {
+      if (key.intersection(digitToSet[1]!).length == 2)
+        setMap(key, 3);
+      else if (key.intersection(digitToSet[4]!).length == 2)
+        setMap(key, 2);
+      else
+        setMap(key, 5);
+    });
+
+    // determine digits for 6-length segments
+    ambiguous.keys.where((key) => key.length == 6).forEach((key) {
+      if (key.intersection(digitToSet[1]!).length == 1)
+        setMap(key, 6);
+      else if (key.intersection(digitToSet[4]!).length == 4)
+        setMap(key, 9);
+      else
+        setMap(key, 0);
+    });
+
     return setToDigit;
   }
 }
 
 /// Determines digits that are not ambiguous \
 /// Returns null for amb. signals
-int? _getDigit(Set<String> signal) {
+int? _getUnambiguousDigit(Set<String> signal) {
   switch (signal.length) {
     case 2:
       return 1;
@@ -99,12 +99,12 @@ int? _getDigit(Set<String> signal) {
       return 7;
     case 7:
       return 8;
-
     default:
       return null;
   }
 }
 
+// extension to create a set of characters from a string
 extension on String {
   Set<String> toSet() {
     return this.split('').toSet();
