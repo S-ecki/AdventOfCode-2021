@@ -1,9 +1,4 @@
-import 'package:tuple/tuple.dart';
-
-import '../utils/generic_day.dart';
-import '../utils/parse_util.dart';
-
-typedef Position = Tuple2<int, int>;
+import '../utils/index.dart';
 
 class Day05 extends GenericDay {
   Day05() : super(5);
