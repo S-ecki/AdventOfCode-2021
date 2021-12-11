@@ -5,7 +5,7 @@ class Day04 extends GenericDay {
   Day04() : super(4);
 
   late List<int> nums;
-  late List<Board> boards;
+  late List<BoardX> boards;
 
   @override
   parseInput() {
@@ -22,14 +22,14 @@ class Day04 extends GenericDay {
     return ParseUtil.stringListToIntList(numberList);
   }
 
-  List<Board> _parseBoards(List<String> inputLines) {
-    List<Board> boards = [];
+  List<BoardX> _parseBoards(List<String> inputLines) {
+    List<BoardX> boards = [];
     List<List<BoardField>> tempBoard = [];
 
     for (var i = 0; i < inputLines.length; ++i) {
       // boards are 5 lines long, sixth line is empty
       if ((i + 1) % 6 == 0) {
-        boards.add(Board(tempBoard));
+        boards.add(BoardX(tempBoard));
         tempBoard = [];
       } else {
         final rowStrings = inputLines[i].split(" ")
@@ -58,8 +58,8 @@ class Day04 extends GenericDay {
   @override
   int solvePart2() {
     parseInput();
-    Set<Board> unsolvedBoards = boards.toSet();
-    Set<Board> boardsToRemove = Set();
+    Set<BoardX> unsolvedBoards = boards.toSet();
+    Set<BoardX> boardsToRemove = Set();
 
     for (var n in nums) {
       for (var board in unsolvedBoards) {
@@ -80,11 +80,11 @@ class Day04 extends GenericDay {
   }
 }
 
-class Board {
+class BoardX {
   final List<List<BoardField>> board;
   bool solved = false;
 
-  Board(this.board);
+  BoardX(this.board);
 
   void checkoff(int n) {
     board.forEach((row) => row.forEach((f) => f.checkIfNum(n)));

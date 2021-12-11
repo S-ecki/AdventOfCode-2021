@@ -8,12 +8,7 @@ class Day11 extends GenericDay {
   late Tuple2<int, int> solution;
 
   @override
-  Board parseInput() {
-    return input
-        .getPerLine()
-        .map((e) => ParseUtil.stringListToIntList(e.trim().split('')))
-        .toList();
-  }
+  Board parseInput() => ParseUtil.stringListToBoard(input.getPerLine());
 
   @override
   int solvePart1() {

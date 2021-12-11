@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import '../utils/index.dart';
 
@@ -25,7 +25,7 @@ class Day07 extends GenericDay {
     final ceil = positions.fold<int>(0, (s, pos) => s + _gaus((pos - mCeil)));
     final floor = positions.fold<int>(0, (s, pos) => s + _gaus((pos - mFloor)));
 
-    return min(ceil, floor);
+    return math.min(ceil, floor);
   }
 
   int _median(List<int> list) {
