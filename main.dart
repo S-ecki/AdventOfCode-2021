@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'solutions/index.dart';
 import 'utils/generic_day.dart';
 
@@ -15,11 +13,10 @@ final days = <GenericDay>[
   Day08(),
   Day09(),
   Day10(),
+  Day11(),
 ];
 
 void main() {
-  Queue<String> queue = DoubleLinkedQueue();
-
   ONLY_SHOW_LAST
       ? days.last.printSolutions()
       : days.forEach((day) => day.printSolutions());
