@@ -2,6 +2,7 @@ export 'generic_day.dart';
 export 'input_util.dart';
 export 'parse_util.dart';
 export 'types.dart';
+export 'board_util.dart';
 
 // package auto imports
 export 'package:collection/collection.dart';

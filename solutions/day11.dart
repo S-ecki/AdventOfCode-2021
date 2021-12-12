@@ -1,5 +1,3 @@
-import 'package:tuple/tuple.dart';
-
 import '../utils/index.dart';
 
 class Day11 extends GenericDay {
@@ -25,7 +23,7 @@ class Day11 extends GenericDay {
     final board = parseInput();
     final boardSize = Tuple2(board.length, board[0].length);
     // convenience method to loop over 2D array (board)
-    final forBoard = (VoidBoardCallback f) {
+    final forBoard = (VoidFieldCallback f) {
       for (var y = 0; y < board.length; ++y) {
         for (var x = 0; x < board[y].length; ++x) {
           f(x, y);

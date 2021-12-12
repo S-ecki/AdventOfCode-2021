@@ -1,6 +1,6 @@
 import 'package:tuple/tuple.dart';
 
-typedef TBoard = List<List<int>>;
+typedef Board = List<List<int>>;
 typedef Position = Tuple2<int, int>;
 typedef Basin = Set<Position>;
 typedef StringList = List<String>;
