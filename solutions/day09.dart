@@ -8,7 +8,7 @@ class Day09 extends GenericDay {
   final lowPoints = <Position>[];
 
   @override
-  Board parseInput() {
+  TBoard parseInput() {
     return input
         .getPerLine()
         .map((e) => ParseUtil.stringListToIntList(e.trim().split('')))
@@ -74,7 +74,7 @@ class Day09 extends GenericDay {
         .fold<int>(1, (prev, basin) => prev * basin.length);
   }
 
-  List<Position> _neighbours(Board board, int y, int x) {
+  List<Position> _neighbours(TBoard board, int y, int x) {
     final positions = <Position>[
       Position(x, y - 1),
       Position(x, y + 1),

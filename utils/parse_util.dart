@@ -16,7 +16,7 @@ class ParseUtil {
     return int.parse(binary, radix: 2);
   }
 
-  static Board stringListToBoard(List<String> strings) {
+  static TBoard stringListToBoard(List<String> strings) {
     return strings
         .map((e) => ParseUtil.stringListToIntList(e.trim().split('')))
         .toList();
