@@ -10,8 +10,6 @@ extension on Coordinate {
 }
 
 // TODO: refactor
-// TODO: implement for existing days instead of [Board]
-// TODO: manage to properly export extension
 
 /// ! This is a work in progress.
 class Field<T> {
@@ -25,7 +23,7 @@ class Field<T> {
   final int height;
   final int width;
 
-  T getValue(Coordinate coord) => _board[coord.x][coord.x];
+  T getValue(Coordinate coord) => _board[coord.y][coord.x];
 
   void setValue(Coordinate coord, T value) => _board[coord.y][coord.x] = value;
 
@@ -44,19 +42,12 @@ class Field<T> {
         _board.reduce((accumulator, list) => [...accumulator, ...list]),
       )!;
 
-  void forField(VoidFieldCallback callback) {
+  void forBoard(VoidFieldCallback callback) {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         callback(x, y);
       }
     }
-  }
-
-  void forCoordinates(
-    Iterable<Coordinate> coordinates,
-    VoidFieldCallback callback,
-  ) {
-    coordinates.forEach((coord) => callback(coord.x, coord.y));
   }
 
   /// Returns all adjacent cells to the given coord. This does `NOT` include

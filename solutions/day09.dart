@@ -1,6 +1,6 @@
-import '../utils/index.dart';
+import 'package:tuple/tuple.dart';
 
-typedef Basin = Set<Position>;
+import '../utils/index.dart';
 
 class Day09 extends GenericDay {
   Day09() : super(9);

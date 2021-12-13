@@ -1,7 +1,7 @@
-import '../utils/index.dart';
+import 'package:collection/collection.dart';
+import 'package:tuple/tuple.dart';
 
-typedef StringList = List<String>;
-typedef Command = Tuple2<StringList, StringList>;
+import '../utils/index.dart';
 
 class Day08 extends GenericDay {
   Day08() : super(8);
