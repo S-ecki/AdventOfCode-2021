@@ -8,29 +8,30 @@ class Day09 extends GenericDay {
   final lowPoints = <Position>[];
 
   @override
-  Board parseInput() {
-    return input
+  Field<int> parseInput() {
+    return Field<int>(input
         .getPerLine()
         .map((e) => ParseUtil.stringListToIntList(e.trim().split('')))
-        .toList();
+        .toList());
   }
 
   @override
   int solvePart1() {
     final board = parseInput();
 
-    for (var y = 0; y < board.length; y++) {
-      for (var x = 0; x < board[y].length; x++) {
-        // checks if any neighbour has lower value
-        // if not, appends it to lowpoints
-        if (_neighbours(board, y, x)
-                .where((n) => board[n.item2][n.item1] <= board[y][x])
-                .length ==
-            0) lowPoints.add(Tuple2(x, y));
+    // checks if any neighbour has lower value
+    // if not, appends it to lowpoints
+    board.forEach((x, y) {
+      if (board
+          .adjacent(x, y)
+          .where((n) => board.getValueAt(n.x, n.y) <= board.getValueAt(x, y))
+          .isEmpty) {
+        lowPoints.add(Tuple2(x, y));
       }
-    }
+    });
 
-    final lowestValues = lowPoints.map((e) => board[e.item2][e.item1]).toList();
+    final lowestValues =
+        lowPoints.map<int>((e) => board.getValueAt(e.x, e.y)).toList();
     return lowestValues.fold<int>(0, (prev, val) => prev += val + 1);
   }
 
@@ -40,7 +41,7 @@ class Day09 extends GenericDay {
     final basins = <Basin>{};
 
     // done to disregard that pos, as 9s are not taken into account
-    final ignorePosition = (Position pos) => board[pos.item2][pos.item1] = 9;
+    final ignorePosition = (Position pos) => board.setValueAt(pos.x, pos.y, 9);
 
     // loop over lowpoints -> search each for a basin
     for (final low in lowPoints) {
@@ -55,8 +56,9 @@ class Day09 extends GenericDay {
         unsearched.remove(searchPos);
         ignorePosition(searchPos);
 
-        final viableNeigh = _neighbours(board, searchPos.item2, searchPos.item1)
-            .where((neigh) => board[neigh.item2][neigh.item1] != 9);
+        final viableNeigh = board
+            .adjacent(searchPos.x, searchPos.y)
+            .where((neigh) => board.getValueAt(neigh.x, neigh.y) != 9);
 
         unsearched.addAll(viableNeigh);
       }
@@ -72,21 +74,5 @@ class Day09 extends GenericDay {
     return sortedBasins
         .take(3)
         .fold<int>(1, (prev, basin) => prev * basin.length);
-  }
-
-  List<Position> _neighbours(Board board, int y, int x) {
-    final positions = <Position>[
-      Position(x, y - 1),
-      Position(x, y + 1),
-      Position(x - 1, y),
-      Position(x + 1, y),
-    ];
-
-    return positions
-      ..removeWhere((pos) =>
-          pos.item1 < 0 ||
-          pos.item2 < 0 ||
-          pos.item1 >= board[0].length ||
-          pos.item2 >= board.length);
   }
 }

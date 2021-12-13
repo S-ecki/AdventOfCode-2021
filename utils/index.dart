@@ -1,7 +1,6 @@
 export 'generic_day.dart';
 export 'input_util.dart';
 export 'parse_util.dart';
-export 'shared_types.dart';
 export 'field_util.dart';
 
 // package auto imports

@@ -1,17 +1,11 @@
 import 'package:quiver/iterables.dart';
 import 'package:tuple/tuple.dart';
 
+typedef Position = Tuple2<int, int>;
 typedef VoidFieldCallback = void Function(int, int);
-typedef Coordinate = Tuple2<int, int>;
-
-extension on Coordinate {
-  int get x => item1;
-  int get y => item2;
-}
 
 // TODO: refactor
-// TODO: implement for existing days instead of [Board]
-// TODO: manage to properly export extension
+// TODO: rename positioninate to position
 
 /// ! This is a work in progress.
 class Field<T> {
@@ -25,12 +19,18 @@ class Field<T> {
   final int height;
   final int width;
 
-  T getValue(Coordinate coord) => _board[coord.x][coord.x];
+  T getValueAt(int x, int y) => _board[y][x];
+  T getValueAtPosition(Position position) => _board[position.y][position.x];
 
-  void setValue(Coordinate coord, T value) => _board[coord.y][coord.x] = value;
+  setValueAtPosition(Position position, T value) =>
+      _board[position.y][position.x] = value;
+  setValueAt(int x, int y, T value) => _board[y][x] = value;
 
-  bool isOnField(Coordinate coord) =>
-      coord.x >= 0 && coord.y >= 0 && coord.x < width && coord.y < height;
+  bool isOnField(Position position) =>
+      position.x >= 0 &&
+      position.y >= 0 &&
+      position.x < width &&
+      position.y < height;
 
   Iterable<T> getRow(int row) => _board[row];
 
@@ -44,7 +44,7 @@ class Field<T> {
         _board.reduce((accumulator, list) => [...accumulator, ...list]),
       )!;
 
-  void forField(VoidFieldCallback callback) {
+  forEach(VoidFieldCallback callback) {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         callback(x, y);
@@ -52,32 +52,34 @@ class Field<T> {
     }
   }
 
-  void forCoordinates(
-    Iterable<Coordinate> coordinates,
+  forCoordinates(
+    Iterable<Position> positioninates,
     VoidFieldCallback callback,
   ) {
-    coordinates.forEach((coord) => callback(coord.x, coord.y));
+    positioninates.forEach((position) => callback(position.x, position.y));
   }
 
-  /// Returns all adjacent cells to the given coord. This does `NOT` include
+  /// TODO: refactor
+  /// Returns all adjacent cells to the given position. This does `NOT` include
   /// diagonal neighbours.
-  Iterable<Coordinate> adjacent(Coordinate coord) {
-    final coords = <Coordinate>{
-      Coordinate(coord.x, coord.y - 1),
-      Coordinate(coord.x, coord.y + 1),
-      Coordinate(coord.x - 1, coord.y),
-      Coordinate(coord.x + 1, coord.y),
+  Iterable<Position> adjacent(int x, int y) {
+    final positions = <Position>{
+      Position(x, y - 1),
+      Position(x, y + 1),
+      Position(x - 1, y),
+      Position(x + 1, y),
     };
 
-    return coords
+    return positions
       ..removeWhere(
           (pos) => pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height);
   }
 
+  /// TODO: refactor
   /// Returns all positional neighbours of a point. This includes the adjacent
   /// `AND` diagonal neighbours.
-  Iterable<Coordinate> neighboards(int x, int y) {
-    final coords = <Coordinate>{};
+  Iterable<Position> neighbours(int x, int y) {
+    final positions = <Position>{};
     for (var xx = x - 1; xx <= x + 1; ++xx) {
       for (var yy = y - 1; yy <= y + 1; ++yy) {
         if (xx >= 0 &&
@@ -85,10 +87,19 @@ class Field<T> {
             (yy != y || xx != x) &&
             xx < width &&
             yy < height) {
-          coords.add(Coordinate(xx, yy));
+          positions.add(Position(xx, yy));
         }
       }
     }
-    return coords;
+    return positions;
   }
+}
+
+extension Incrementor on Field<int> {
+  increment(int x, int y) => this.setValueAt(x, y, this.getValueAt(x, y) + 1);
+}
+
+extension CoordinateLocator on Position {
+  int get x => item1;
+  int get y => item2;
 }

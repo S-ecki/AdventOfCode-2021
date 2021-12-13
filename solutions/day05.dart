@@ -51,10 +51,10 @@ class Line {
   final x1, x2, y1, y2;
 
   Line(Position start, Position end)
-      : x1 = start.item1,
-        x2 = end.item1,
-        y1 = start.item2,
-        y2 = end.item2;
+      : x1 = start.x,
+        x2 = end.x,
+        y1 = start.y,
+        y2 = end.y;
 
   bool get isDiagonal => (x1 != x2 && y1 != y2);
 

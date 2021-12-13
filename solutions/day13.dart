@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import '../utils/index.dart';
 
 typedef Artwork = List<List<String>>;
@@ -68,8 +66,8 @@ class Day13 extends GenericDay {
       // fold them
       final foldedDots = dotsToChange
           .map<Position>((dot) => direction == 'x'
-              ? Position(foldValue * 2 - dot.item1, dot.item2)
-              : Position(dot.item1, foldValue * 2 - dot.item2))
+              ? Position(foldValue * 2 - dot.x, dot.y)
+              : Position(dot.x, foldValue * 2 - dot.y))
           .toSet();
 
       sheet.removeDots(dotsToChange);
