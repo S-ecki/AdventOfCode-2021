@@ -14,10 +14,12 @@ abstract class GenericDay {
   int? solvePart2();
 
   void printSolutions() {
+    final solution1 = solvePart1();
+    final solution2 = solvePart2();
     print("-------------------------");
     print("         Day $day        ");
-    if (solvePart1() != null) print("Solution for puzzle one: ${solvePart1()}");
-    if (solvePart2() != null) print("Solution for puzzle two: ${solvePart2()}");
+    if (solution1 != null) print("Solution for puzzle one: $solution1");
+    if (solution2 != null) print("Solution for puzzle two: $solution2");
     print("\n");
   }
 }
