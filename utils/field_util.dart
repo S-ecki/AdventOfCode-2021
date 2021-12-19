@@ -4,10 +4,6 @@ import 'package:tuple/tuple.dart';
 typedef Position = Tuple2<int, int>;
 typedef VoidFieldCallback = void Function(int, int);
 
-// TODO: refactor
-// TODO: rename positioninate to position
-
-/// ! This is a work in progress.
 class Field<T> {
   Field(this._board)
       : assert(_board.length > 0),
@@ -19,31 +15,40 @@ class Field<T> {
   final int height;
   final int width;
 
-  T getValueAt(int x, int y) => _board[y][x];
+  /// Returns the value at the given position.
   T getValueAtPosition(Position position) => _board[position.y][position.x];
 
+  /// Returns the value at the given coordinates.
+  T getValueAt(int x, int y) => getValueAtPosition(Position(x, y));
+
+  /// Sets the value at the given Position.
   setValueAtPosition(Position position, T value) =>
       _board[position.y][position.x] = value;
-  setValueAt(int x, int y, T value) => _board[y][x] = value;
 
+  /// Sets the value at the given coordinates.
+  setValueAt(int x, int y, T value) =>
+      setValueAtPosition(Position(x, y), value);
+
+  /// Returns whether the given position is inside of this field.
   bool isOnField(Position position) =>
       position.x >= 0 &&
       position.y >= 0 &&
       position.x < width &&
       position.y < height;
 
+  /// Returns the whole row with given row index.
   Iterable<T> getRow(int row) => _board[row];
 
+  /// Returns the whole column with given column index.
   Iterable<T> getColumn(int column) => _board.map((row) => row[column]);
 
-  T get maxValue => max<T>(
-        _board.reduce((accumulator, list) => [...accumulator, ...list]),
-      )!;
+  /// Returns the minimum value in this field.
+  T get minValue => min<T>(_board.reduce((accu, list) => [...accu, ...list]))!;
 
-  T get minValue => min<T>(
-        _board.reduce((accumulator, list) => [...accumulator, ...list]),
-      )!;
+  /// Returns the maximum value in this field.
+  T get maxValue => max<T>(_board.reduce((acc, list) => [...acc, ...list]))!;
 
+  /// Executes the given callback for every position on this field.
   forEach(VoidFieldCallback callback) {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
@@ -52,51 +57,57 @@ class Field<T> {
     }
   }
 
-  forCoordinates(
-    Iterable<Position> positioninates,
+  /// Executes the given callback for all given positions.
+  forPositions(
+    Iterable<Position> positions,
     VoidFieldCallback callback,
   ) {
-    positioninates.forEach((position) => callback(position.x, position.y));
+    positions.forEach((position) => callback(position.x, position.y));
   }
 
-  /// TODO: refactor
   /// Returns all adjacent cells to the given position. This does `NOT` include
   /// diagonal neighbours.
   Iterable<Position> adjacent(int x, int y) {
-    final positions = <Position>{
+    return <Position>{
       Position(x, y - 1),
       Position(x, y + 1),
       Position(x - 1, y),
       Position(x + 1, y),
-    };
-
-    return positions
-      ..removeWhere(
-          (pos) => pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height);
+    }..removeWhere(
+        (pos) => pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height);
   }
 
-  /// TODO: refactor
   /// Returns all positional neighbours of a point. This includes the adjacent
   /// `AND` diagonal neighbours.
   Iterable<Position> neighbours(int x, int y) {
-    final positions = <Position>{};
-    for (var xx = x - 1; xx <= x + 1; ++xx) {
-      for (var yy = y - 1; yy <= y + 1; ++yy) {
-        if (xx >= 0 &&
-            yy >= 0 &&
-            (yy != y || xx != x) &&
-            xx < width &&
-            yy < height) {
-          positions.add(Position(xx, yy));
-        }
-      }
-    }
-    return positions;
+    return <Position>{
+      // positions are added in a circle, starting at the top middle
+      Position(x, y - 1),
+      Position(x + 1, y - 1),
+      Position(x + 1, y),
+      Position(x + 1, y + 1),
+      Position(x, y + 1),
+      Position(x - 1, y + 1),
+      Position(x - 1, y),
+      Position(x - 1, y - 1),
+    }..removeWhere(
+        (pos) => pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height);
   }
 }
 
-extension Incrementor on Field<int> {
+extension IntegerField on Field<int> {
+  /// Increments the values of Position `x` `y`.
   increment(int x, int y) => this.setValueAt(x, y, this.getValueAt(x, y) + 1);
+
+  /// Convenience method to create a Field from a single String, where the
+  /// String is a "block" of integers.
+  static Field<int> fromString(String string) {
+    final lines = string
+        .split('\n')
+        .map((line) => line.trim().split('').map(int.parse).toList())
+        .toList();
+    return Field(lines);
+  }
 }
 
 extension CoordinateLocator on Position {
