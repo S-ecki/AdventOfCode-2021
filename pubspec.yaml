@@ -5,6 +5,7 @@ environment:
   sdk: '>=2.14.0 <3.0.0'
 dependencies:
   collection: ^1.15.0
+  dijkstra: ^0.0.2
   graph_collection: ^2.1.0
   quiver: ^3.0.1+1
   tuple: ^2.0.0

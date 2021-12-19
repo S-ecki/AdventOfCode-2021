@@ -4,7 +4,7 @@ import 'index.dart';
 class ParseUtil {
   /// Throws an exception if any given String is not parseable.
   static List<int> stringListToIntList(List<String> strings) {
-    return strings.map((e) => int.parse(e)).toList();
+    return strings.map(int.parse).toList();
   }
 
   static List<BoardField> intListToBoardFieldList(List<int> strings) {
