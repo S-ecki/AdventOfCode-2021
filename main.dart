@@ -19,6 +19,7 @@ final days = <GenericDay>[
   Day14(),
   Day15(),
   Day17(),
+  Day20(),
 ];
 
 void main() {
