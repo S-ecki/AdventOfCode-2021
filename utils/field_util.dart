@@ -47,10 +47,10 @@ class Field<T> {
   Iterable<T> getColumn(int column) => field.map((row) => row[column]);
 
   /// Returns the minimum value in this field.
-  T get minValue => min<T>(field.reduce((accu, list) => [...accu, ...list]))!;
+  T get minValue => min<T>(field.expand((element) => element))!;
 
   /// Returns the maximum value in this field.
-  T get maxValue => max<T>(field.reduce((acc, list) => [...acc, ...list]))!;
+  T get maxValue => max<T>(field.expand((element) => element))!;
 
   /// Executes the given callback for every position on this field.
   forEach(VoidFieldCallback callback) {
