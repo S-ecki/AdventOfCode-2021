@@ -21,7 +21,7 @@ class InputUtil {
 
   /// Splits the input String by `newline`.
   List<String> getPerLine() {
-    return _inputAsString.split('\n');
+    return _inputAsString.split('\n').map((l) => l.trim()).toList();
   }
 
   /// Splits the input String by `whitespace` and `newline`.
