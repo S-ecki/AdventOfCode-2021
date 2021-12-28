@@ -20,3 +20,4 @@ export 'day21.dart';
 export 'day22.dart';
 export 'day25.dart';
 export 'day23.dart';
+export 'day24.dart';
