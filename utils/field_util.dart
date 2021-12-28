@@ -4,10 +4,12 @@ import 'package:tuple/tuple.dart';
 typedef Position = Tuple2<int, int>;
 typedef VoidFieldCallback = void Function(int, int);
 
+/// A helper class for easier work with 2D data.
 class Field<T> {
   Field(List<List<T>> field)
       : assert(field.length > 0),
         assert(field[0].length > 0),
+        // creates a deep copy by value from given field to prevent unwarranted overrides
         field = List<List<T>>.generate(
           field.length,
           (y) => List<T>.generate(field[0].length, (x) => field[y][x]),
@@ -103,6 +105,7 @@ class Field<T> {
         (pos) => pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height);
   }
 
+  /// Returns a deep copy by value of this [Field].
   Field<T> copy() {
     final newField = List<List<T>>.generate(
       height,
@@ -124,6 +127,7 @@ class Field<T> {
   }
 }
 
+/// Extension for [Field]s where [T] is of type [int].
 extension IntegerField on Field<int> {
   /// Increments the values of Position `x` `y`.
   increment(int x, int y) => this.setValueAt(x, y, this.getValueAt(x, y) + 1);

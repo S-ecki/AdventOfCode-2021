@@ -6,7 +6,7 @@ class Day11 extends GenericDay {
   late Tuple2<int, int> solution;
 
   @override
-  Field<int> parseInput() => ParseUtil.stringListToIntField(input.getPerLine());
+  Field<int> parseInput() => IntegerField.fromString(input.asString);
 
   @override
   int solvePart1() {

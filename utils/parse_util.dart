@@ -1,5 +1,4 @@
 import '../solutions/day04.dart';
-import 'index.dart';
 
 class ParseUtil {
   /// Throws an exception if any given String is not parseable.
@@ -14,11 +13,5 @@ class ParseUtil {
   /// Returns decimal number from binary string
   static int binaryToDecimal(String binary) {
     return int.parse(binary, radix: 2);
-  }
-
-  static Field<int> stringListToIntField(List<String> strings) {
-    return Field(strings
-        .map((e) => ParseUtil.stringListToIntList(e.trim().split('')))
-        .toList());
   }
 }

@@ -50,7 +50,7 @@ class Day21 extends GenericDay {
   }
 
   @override
-  int solvePart2() {
-    return 0;
+  int? solvePart2() {
+    return null;
   }
 }

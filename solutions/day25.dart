@@ -82,8 +82,8 @@ class Day25 extends GenericDay {
   }
 
   @override
-  int solvePart2() {
+  int? solvePart2() {
     // there is no part 1 for this day
-    return 0;
+    return null;
   }
 }

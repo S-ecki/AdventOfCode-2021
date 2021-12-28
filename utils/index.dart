@@ -3,7 +3,7 @@ export 'input_util.dart';
 export 'parse_util.dart';
 export 'field_util.dart';
 
-// // package auto imports
+// package auto imports
 export 'package:collection/collection.dart';
 export 'package:tuple/tuple.dart';
 export 'package:quiver/core.dart';
